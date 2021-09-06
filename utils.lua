@@ -46,22 +46,21 @@ function perMinute(amount, cycleTime)
    return perMinute
 end
 
-
+--worldClock Class re;quires internet card, and file system to work
 worldClock = {}
-function worldClock.new(card,fs)
-   local self = {}
-   local request = card:request("http://worldclockapi.com/api/json/utc/now","GET", "")
-   local _,jsonDate = request:await()
-   local self = {}
+function worldClock.new(card, fs)
+   local request = card:request('http://worldclockapi.com/api/json/utc/now', 'GET', '')
+   local _, jsonDate = request:await()
+   local this = {}
    local dateInfo = json.decode(jsonDate)
-      for k,v in pairs (dateInfo) do
-         if k == "currentDateTime" then 
-            self.year = string.sub(v,1,4)
-            self.month = string.sub(v,6,7)
-            self.day = string.sub(v,9,10)
-         elseif k == "dayOfTheWeek" then
-            self.dayOfTheWeek = v
-         end
+   for k, v in pairs(dateInfo) do
+      if k == 'currentDateTime' then
+         this.year = string.sub(v, 1, 4)
+         this.month = string.sub(v, 6, 7)
+         this.day = string.sub(v, 9, 10)
+      elseif k == 'dayOfTheWeek' then
+         this.dayOfTheWeek = v
       end
-   return self
+   end
+   return this
 end
