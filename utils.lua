@@ -45,3 +45,23 @@ function perMinute(amount, cycleTime)
    local perMinute = (60 / cycleTime) * amount
    return perMinute
 end
+
+
+worldClock = {}
+function worldClock.new(card,fs)
+   local self = {}
+   local request = card:request("http://worldclockapi.com/api/json/utc/now","GET", "")
+   local _,jsonDate = request:await()
+   local self = {}
+   local dateInfo = json.decode(jsonDate)
+      for k,v in pairs (dateInfo) do
+         if k == "currentDateTime" then 
+            self.year = string.sub(v,1,4)
+            self.month = string.sub(v,6,7)
+            self.day = string.sub(v,9,10)
+         elseif k == "dayOfTheWeek" then
+            self.dayOfTheWeek = v
+         end
+      end
+   return self
+end
