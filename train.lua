@@ -13,7 +13,7 @@ function isWagonEmpty(vehicles)
          end
       end
    end
-  return false
+   return false
 end
 
 --[[ This is used for finding a station that can fulfill an order. ]]
